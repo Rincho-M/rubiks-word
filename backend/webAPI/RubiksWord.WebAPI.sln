@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.API", "RubiksWord.API\RubiksWord.API.csproj", "{1C58D018-23BA-4428-A2D1-5E4A68B70B30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7664C6A2-B7D2-4576-906C-0932EFCF2985} = {7664C6A2-B7D2-4576-906C-0932EFCF2985}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.Core", "RubiksWord.Core\RubiksWord.Core.csproj", "{7664C6A2-B7D2-4576-906C-0932EFCF2985}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.DAL", "RubiksWord.DAL\RubiksWord.DAL.csproj", "{CCDE7453-36B0-4835-BFDE-88C24AE8CC9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7664C6A2-B7D2-4576-906C-0932EFCF2985} = {7664C6A2-B7D2-4576-906C-0932EFCF2985}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
