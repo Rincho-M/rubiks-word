@@ -1,31 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace RubiksWord.API
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            IHostBuilder hostBuilder = Host.CreateDefaultBuilder(args);
-            hostBuilder.ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+// Services.
+builder.Services.AddControllersWithViews();
 
-            return hostBuilder;
-        }
-    }
-}
+WebApplication app = builder.Build();
+
+// Middlewares.
+app.UseRouting();
+app.MapControllers();
+
+app.Run();
