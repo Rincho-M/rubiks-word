@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.API", "src\Rubik
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.Core", "src\RubiksWord.Core\RubiksWord.Core.csproj", "{7664C6A2-B7D2-4576-906C-0932EFCF2985}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.DAL", "src\RubiksWord.DAL\RubiksWord.DAL.csproj", "{CCDE7453-36B0-4835-BFDE-88C24AE8CC9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RubiksWord.Data", "src\RubiksWord.DAL\RubiksWord.Data.csproj", "{CCDE7453-36B0-4835-BFDE-88C24AE8CC9B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7664C6A2-B7D2-4576-906C-0932EFCF2985} = {7664C6A2-B7D2-4576-906C-0932EFCF2985}
 	EndProjectSection
