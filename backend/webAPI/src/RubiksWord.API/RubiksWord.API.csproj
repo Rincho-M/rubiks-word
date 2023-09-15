@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RubiksWord.Core\RubiksWord.Core.csproj" />
-    <ProjectReference Include="..\RubiksWord.DAL\RubiksWord.Data.csproj" />
+    <ProjectReference Include="..\RubiksWord.Data\RubiksWord.Data.csproj" />
   </ItemGroup>
 
 </Project>

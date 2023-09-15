@@ -1,9 +1,9 @@
 ﻿using RubiksWord.Core.Entities;
 using RubiksWord.Core.Repositories;
-using RubiksWord.DAL.Contexts;
+using RubiksWord.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace RubiksWord.DAL.Repositories;
+namespace RubiksWord.Data.Repositories;
 
 public class CubeRepository : ICubeRepository
 {

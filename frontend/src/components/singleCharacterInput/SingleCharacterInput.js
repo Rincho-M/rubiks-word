@@ -3,12 +3,12 @@ import { React, useState } from "react";
 // CSS
 import "../../css/index.css";
 
-const SingleCharacterInput = () => {
-  const [value, setValue] = useState("1");
+const SingleCharacterInput = (props) => {
+  const [value, setValue] = useState(props.value);
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
-    const newValue = inputValue.slice(0, 1); // Get the first character
+    const newValue = inputValue.slice(0, 1);
     setValue(newValue);
   };
 

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using RubiksWord.Core.Entities;
 using RubiksWord.Core.DataTypes;
-using static RubiksWord.DAL.Constants.PgsqlTypeNames;
+using static RubiksWord.Data.Constants.PgsqlTypeNames;
 
-namespace RubiksWord.DAL.Contexts;
+namespace RubiksWord.Data.Contexts;
 
 public class MainContext : DbContext
 {

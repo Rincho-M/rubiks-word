@@ -1,17 +1,38 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import Tile from "../tile/Tile";
 import ArrowButton from "../arrowButton/ArrowButton";
+import { cubeApi } from "../../api/cube/api";
 
 // CSS
 import "../../css/index.css";
 
 const RubiksCube = () => {
-  const values = ["", "", "", "", "", "", "", "", ""];
+  const [values, setValues] = useState([
+    {
+      id: 0,
+      position: "1",
+      orientation: "1",
+      letters: [
+        ["-", "-", "-", "-"],
+        ["-", "-", "-", "-"],
+        ["-", "-", "-", "-"],
+        ["-", "-", "-", "-"],
+      ],
+      color: "default",
+    },
+  ]);
+  useEffect(() => {
+    const wrapper = async () => {
+      const cubeData = await cubeApi.getCube("test");
+      setValues(cubeData.data.points);
+    };
+    wrapper();
+  }, []);
   const gridItems = values.map((value) => {
     return (
-      <Grid item xs={4}>
-        <Tile>{value}</Tile>
+      <Grid item xs={4} key={value.id}>
+        <Tile point={value}></Tile>
       </Grid>
     );
   });

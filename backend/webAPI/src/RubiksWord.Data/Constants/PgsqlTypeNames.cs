@@ -1,4 +1,4 @@
-﻿namespace RubiksWord.DAL.Constants;
+﻿namespace RubiksWord.Data.Constants;
 
 public class PgsqlTypeNames
 {
