@@ -9,11 +9,12 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="7.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RubiksWord.Core\RubiksWord.Core.csproj" />
+    <ProjectReference Include="..\RubiksWord.Domain\RubiksWord.Domain.csproj" />
     <ProjectReference Include="..\RubiksWord.Data\RubiksWord.Data.csproj" />
   </ItemGroup>
 

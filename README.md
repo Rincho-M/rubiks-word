@@ -1,1 +1,1 @@
-RubikText
+Project for practice. The main thing is a Rubik's Cube on all sides of which all website visitors can write in real-time.

@@ -3,18 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RubiksWord.Core.UseCases;
-using RubiksWord.Core.Repositories;
+using RubiksWord.Domain.UseCases;
+using RubiksWord.Domain.Repositories;
 using RubiksWord.Data.Contexts;
 using RubiksWord.Data.Repositories;
-using RubiksWord.Core.Entities;
 using RubiksWord.API.Mappers;
-using AutoMapper;
 using RubiksWord.API.Extensions;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-
-
+using RubiksWord.API.Hubs;
+using MessagePack;
+using MessagePack.Resolvers;
+using AutoMapper;
+using RubiksWord.Domain.Seeds;
 
 // Services.
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -27,12 +28,21 @@ builder.Services
         converters.Add(new QuaternionJsonConverter());
     });
 builder.Services.AddSwaggerGen();
+builder.Services
+    .AddSignalR()
+    .AddMessagePackProtocol(options =>
+    {
+        options.SerializerOptions = MessagePackSerializerOptions.Standard
+            .WithSecurity(MessagePackSecurity.UntrustedData)
+            .WithResolver(ContractlessStandardResolver.Instance);
+    });
 
-builder.Services.AddScoped<CubeUseCase>();
+builder.Services.AddScoped<CubeUseCases>();
 builder.Services.AddScoped<ICubeRepository, CubeRepository>();
-builder.Services.AddAutoMapper(typeof(MainProfile));
-builder.Services.AddDbContext<MainContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetValue<string>("ConnectionStrings:MainContext")));
+builder.Services.AddAutoMapper(typeof(CommonProfile));
+builder.Services.AddDbContext<CommonContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetValue<string>("ConnectionStrings:CommonContext")));
+builder.Services.AddValidators();
 
 // Middlewares.
 WebApplication app = builder.Build();
@@ -44,15 +54,19 @@ if (app.Environment.IsDevelopment())
 app.UseCors(builder =>
 {
     builder
-        .AllowAnyOrigin()
+        .WithOrigins("http://localhost:3000")
         .AllowAnyMethod()
-        .AllowAnyHeader();
+        .AllowAnyHeader()
+        .AllowCredentials();
 });
 app.UseGlobalErrorHandler();
-app.UseWebSockets();
 app.UseRouting();
-app.MapControllers();
 
+// Endpoints.
+app.MapControllers();
+app.MapHub<CubeHub>("/hubs/cube");
+
+// Dev environment preparations.
 if (app.Environment.IsDevelopment())
 {
     app.Services
@@ -62,101 +76,13 @@ if (app.Environment.IsDevelopment())
 
     using (var scope = app.Services.CreateScope())
     {
-        MainContext context = scope.ServiceProvider.GetRequiredService<MainContext>();
+        CommonContext context = scope.ServiceProvider.GetRequiredService<CommonContext>();
         context.Database.EnsureDeleted();
         string dbInitScript = context.Database.GenerateCreateScript();
         context.Database.EnsureCreated();
 
-        #region seeds
-        Cube testCube = new()
-        {
-            Id = 1,
-            Name = "test",
-        };
-        Point testPoint1 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint2 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint3 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint4 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint5 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint6 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint7 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint8 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        Point testPoint9 = new()
-        {
-            Color = "red",
-            Position = new(1, 2, 3),
-            Orientation = new(0, 1, 2, 3),
-            Letters = new string[,] { { "t", "p", "s", "g" }, { "a", "o", "u", "e" }, { "q", "n", "k", "m" }, { "n", "h", "o", "j" }, },
-            Cube = testCube,
-        };
-        #endregion
-        testCube.Points.Add(testPoint1);
-        testCube.Points.Add(testPoint2);
-        testCube.Points.Add(testPoint3);
-        testCube.Points.Add(testPoint4);
-        testCube.Points.Add(testPoint5);
-        testCube.Points.Add(testPoint6);
-        testCube.Points.Add(testPoint7);
-        testCube.Points.Add(testPoint8);
-        testCube.Points.Add(testPoint9);
-        context.Cubes.Add(testCube);
-        context.SaveChanges();
+        CubeUseCases cubeUseCase = scope.ServiceProvider.GetRequiredService<CubeUseCases>();
+        await cubeUseCase.Create(DevSeedData.GetTestCube());
     }
 }
 

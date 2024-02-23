@@ -1,32 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using RubiksWord.Core.Entities;
-using RubiksWord.Core.DataTypes;
+using RubiksWord.Domain.Entities;
+using RubiksWord.Domain.DataTypes;
 using static RubiksWord.Data.Constants.PgsqlTypeNames;
 
 namespace RubiksWord.Data.Contexts;
 
-public class MainContext : DbContext
+public class CommonContext : DbContext
 {
     public DbSet<Cube> Cubes { get; set; }
     public DbSet<Point> Points { get; set; }
 
-    public MainContext(DbContextOptions<MainContext> options) : base(options) { }
+    public CommonContext(DbContextOptions<CommonContext> options) : base(options) { }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Point>()
+        builder.Entity<Cube>()
+            .ToTable(nameof(Cube).ToLower())
+            .HasKey(c => c.Id);
+        builder.Entity<Cube>()
+            .Property(c => c.Name)
+            .HasMaxLength(128)
+            .IsRequired();
+
+        builder.Entity<Point>()
+            .ToTable(nameof(Point).ToLower())
             .HasOne(p => p.Cube)
             .WithMany(c => c.Points)
             .HasForeignKey(p => p.CubeId);
-        modelBuilder.Entity<Point>()
+        builder.Entity<Point>()
             .Property(p => p.Orientation)
             .HasColumnType(Varchar)
             .HasConversion(
                 v => v.ToString(),
                 v => Quaternion.Parse(v)
             );
-        modelBuilder.Entity<Point>()
+        builder.Entity<Point>()
             .Property(p => p.Position)
             .HasColumnType(Varchar)
             .HasConversion(

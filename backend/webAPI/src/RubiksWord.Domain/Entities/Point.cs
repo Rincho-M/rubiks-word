@@ -1,8 +1,8 @@
-﻿using RubiksWord.Core.DataTypes;
+﻿using RubiksWord.Domain.DataTypes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RubiksWord.Core.Entities;
+namespace RubiksWord.Domain.Entities;
 
 [Table("point")]
 public class Point

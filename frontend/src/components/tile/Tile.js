@@ -1,10 +1,8 @@
 import React from "react";
-import { Grid, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 import SingleCharacterInput from "../singleCharacterInput/SingleCharacterInput";
 
 const Tile = ({ point }) => {
-  console.log(point);
-  console.log(point.letters);
   const gridItems = point.letters.map((value, index) => {
     return value.map((value, index) => {
       return (

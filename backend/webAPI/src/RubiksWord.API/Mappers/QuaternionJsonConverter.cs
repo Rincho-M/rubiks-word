@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System;
 using System.Text.Json.Serialization;
-using RubiksWord.Core.DataTypes;
+using RubiksWord.Domain.DataTypes;
 
 namespace RubiksWord.API.Mappers;
 

@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RubiksWord.Core\RubiksWord.Core.csproj" />
+    <ProjectReference Include="..\RubiksWord.Domain\RubiksWord.Domain.csproj" />
   </ItemGroup>
 
 </Project>

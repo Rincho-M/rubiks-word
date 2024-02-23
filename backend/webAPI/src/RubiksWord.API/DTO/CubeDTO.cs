@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RubiksWord.API.DTO;
+﻿namespace RubiksWord.API.DTO;
 
 public class CubeDTO
 {
@@ -8,5 +6,5 @@ public class CubeDTO
 
     public string? Name { get; set; }
 
-    public IEnumerable<PointDTO>? Points { get; set; }
+    public PointDTO[][][]? Points { get; set; }
 }

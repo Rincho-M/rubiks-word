@@ -1,12 +1,13 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
-namespace RubiksWord.Core.DataTypes;
+namespace RubiksWord.Domain.DataTypes;
 
 public struct Quaternion
 {
     private readonly System.Numerics.Quaternion _value;
 
-    private const string _regexPattern = """^\((-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)\)$""";
+    private const string _regexPattern = """^\((-?\d+(?:\.[\dE-]+)?),(-?\d+(?:\.[\dE-]+)?),(-?\d+(?:\.[\dE-]+)?),(-?\d+(?:\.[\dE-]+)?)\)$""";
     private const string _parseExceptionMessage =
         "The parsed value had an invalid format. Correct format: (D,D,D,D), where D is decimal number.";
 
@@ -17,7 +18,10 @@ public struct Quaternion
 
     public override string ToString()
     {
-        return $"({_value.W},{_value.X},{_value.Y},{_value.Z})";
+        return string.Format(
+            CultureInfo.InvariantCulture, 
+            "({0},{1},{2},{3})", 
+            _value.W, _value.X, _value.Y, _value.Z);
     }
 
     public static Quaternion Parse(string quaternionString)
@@ -26,10 +30,10 @@ public struct Quaternion
         if (result.Success)
         {
             return new Quaternion(
-                float.Parse(result.Groups[1].Value),
-                float.Parse(result.Groups[2].Value),
-                float.Parse(result.Groups[3].Value),
-                float.Parse(result.Groups[4].Value)
+                float.Parse(result.Groups[1].Value, CultureInfo.InvariantCulture),
+                float.Parse(result.Groups[2].Value, CultureInfo.InvariantCulture),
+                float.Parse(result.Groups[3].Value, CultureInfo.InvariantCulture),
+                float.Parse(result.Groups[4].Value, CultureInfo.InvariantCulture)
             );
         }
         else
